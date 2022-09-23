@@ -1,0 +1,15 @@
+.sponsors{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-between;
+    align-items: center;
+}
+
+.important__brand{
+    max-width: 250px;
+}
+
+.brand{
+    max-width: 150px;
+}
