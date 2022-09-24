@@ -70,7 +70,7 @@ const LuckyWheel = () => {
   const [name, setName] = useState("circle");
   const [chances, setChances] = useState(1);   
   const [style, setStyle] = useState(0);
-  const [elGanadorEs, setElGanadorEs] = useState("Cerveza Santa Fe")
+  const [elGanadorEs, setElGanadorEs] = useState("Milkaut");
 
   function obtenerValor(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -106,8 +106,7 @@ const LuckyWheel = () => {
         text: "Haz click en GIRAR para ganar un premio",
         icon: 'success',
         showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#00c18c',
         confirmButtonText: '¡GIRAR!'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -116,11 +115,20 @@ const LuckyWheel = () => {
       })
       
     } else if (nombreUsuario && !emailUsuario) {
-      Swal.fire('Debes ingresar tu Correo Electrónico')
+      Swal.fire({
+        text: 'Debes ingresar tu correo electrónico',
+        confirmButtonColor: '#00c18c'
+      })
     } else if (!nombreUsuario && emailUsuario) {
-      Swal.fire('Debes ingresar tu Nombre')
+      Swal.fire({
+        text: 'Debes ingresar tu nombre',
+        confirmButtonColor: '#00c18c'
+      })
     } else {
-      Swal.fire('Debes ingresar tu Nombre y Correo electrónico')
+      Swal.fire({
+        text: 'Debes ingresar tu nombre y correo electrónico',
+        confirmButtonColor: '#00c18c'
+      })
     }
   }
   
@@ -141,6 +149,7 @@ const LuckyWheel = () => {
       Swal.fire({
         title: '¡Felicitaciones!',
         text: 'Ganaste un premio de ' + elGanadorEs,
+        confirmButtonColor: '#00c18c'
       })}, 5500);
   }
   

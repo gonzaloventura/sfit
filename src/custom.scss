@@ -15,4 +15,6 @@ body{
     display: grid;
     grid-template: "a a" auto;
     align-items: center;
+    max-width: 500px;
+    margin: auto;
 }
