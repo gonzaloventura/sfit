@@ -12,4 +12,7 @@ body{
     font-weight: 800;
     text-align: center;
     color: white;
+    display: grid;
+    grid-template: "a a" auto;
+    align-items: center;
 }
