@@ -17,8 +17,8 @@ const FormContact = () => {
   return (
     <div>
         <form>
-            <input type="text" onChange={handleNameChange} placeholder='Nombre' />
-            <input type="text" onChange={handleEmailChange} placeholder='Correo electrónico' />
+            <input id='name' type="text" onChange={handleNameChange} placeholder='Nombre' />
+            <input id='email' type="text" onChange={handleEmailChange} placeholder='Correo electrónico' />
         </form>
     </div>
   )

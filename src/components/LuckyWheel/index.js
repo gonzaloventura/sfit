@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './LuckyWheel.scss'
 import confetti from 'canvas-confetti';
+import Swal from 'sweetalert2';
 
 const data = [
   {
@@ -69,7 +70,7 @@ const LuckyWheel = () => {
   const [name, setName] = useState("circle");
   const [chances, setChances] = useState(1);   
   const [style, setStyle] = useState(0);
-  const [randomValues, setRandomValues] = useState(0);
+  const [elGanadorEs, setElGanadorEs] = useState("Cerveza Santa Fe")
 
   function obtenerValor(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -79,10 +80,16 @@ const LuckyWheel = () => {
     switch (marca){
       case "Tacural":
         return(obtenerValor(data[0].rotacion_min, data[0].rotacion_max));
-        break;
       case "Milkaut":
         return(obtenerValor(data[1].rotacion_min, data[1].rotacion_max));
-        break;
+      case "Merengo":
+        return(obtenerValor(data[2].rotacion_min, data[2].rotacion_max));
+      case "Cerveza Santa Fe":
+        return(obtenerValor(data[3].rotacion_min, data[3].rotacion_max));
+      case "Santa Fe Capital":
+        return(obtenerValor(data[4].rotacion_min, data[4].rotacion_max));
+      default:
+        return(obtenerValor(data[5].rotacion_min, data[5].rotacion_max));
     }
   }
   
@@ -90,34 +97,64 @@ const LuckyWheel = () => {
     transform: "rotate(" + style + "deg)"
   }
 
+  const validacionPrevia = () => {
+    const nombreUsuario = document.getElementById("name").value;
+    const emailUsuario = document.getElementById("email").value;
+    if (nombreUsuario && emailUsuario) {
+      Swal.fire({
+        title: 'Los datos son válidos',
+        text: "Haz click en GIRAR para ganar un premio",
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡GIRAR!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          startRotation();
+        }
+      })
+      
+    } else if (nombreUsuario && !emailUsuario) {
+      Swal.fire('Debes ingresar tu Correo Electrónico')
+    } else if (!nombreUsuario && emailUsuario) {
+      Swal.fire('Debes ingresar tu Nombre')
+    } else {
+      Swal.fire('Debes ingresar tu Nombre y Correo electrónico')
+    }
+  }
   
   const startRotation = () => {
-
     setName("circle start-rotate")
     setTimeout(() => {
-      setStyle(quienGana("Tacural"));
-      console.log(quienGana("Tacural"));
+      setStyle(quienGana(elGanadorEs));
+      console.log(quienGana(elGanadorEs));
       setName("circle stop-rotate");
       confetti({
         particleCount: 160,
-  startVelocity: 25,
-  spread: 120,
-  });
+        startVelocity: 25,
+        spread: 120,
+        });
     seQuedoSinChances();
     }, 4000);
+    setTimeout(() => {
+      Swal.fire({
+        title: '¡Felicitaciones!',
+        text: 'Ganaste un premio de ' + elGanadorEs,
+      })}, 5500);
   }
+  
 
   const seQuedoSinChances = () => {
     localStorage.setItem("Chances", 0);
     setChances(0);
   }
-  
 
     return (
     <>
     {
         localStorage.getItem("Chances") !== "0" ? 
-        <button className='spin-button' onClick={startRotation}>¡GIRAR!</button>
+        <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
         : 
         <>
           <h2 className='subtitulo__rueda'>
