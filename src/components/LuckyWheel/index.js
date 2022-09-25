@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import './LuckyWheel.scss'
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
+import {Link} from 'react-router-dom';
 
-const data = [
+export const data = [
   {
     id: 0,
     marca: "Tacural",
@@ -181,9 +182,11 @@ const LuckyWheel = () => {
           <h2 className='subtitulo__rueda'>
             ¡Te quedaste sin chances!
           </h2>
-          <button className='spin-button'>
-            OBTENER NUEVO GIRO
-          </button>
+          <Link to={'/nuevachance'}>
+            <button className='spin-button'>
+              OBTENER NUEVO GIRO
+            </button>
+          </Link>
         </>
         }
     <div className='wheel__container'>

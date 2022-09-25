@@ -1,0 +1,19 @@
+.cuenta__follow{
+    display: flex;
+    align-items: center;
+    margin: 25px 0px;
+    img{
+        margin: 0 20px;
+    }
+    a{
+        background-color: #00c18c;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        transition: .25s;
+        &:hover{
+            background-color: #43caa6;
+            transition: .25s;
+        }
+    }
+}

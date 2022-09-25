@@ -22,3 +22,20 @@ body{
 .banner__sponsors{
     max-width: 100%;
 }
+
+.nuevachance{
+    text-align: center;
+    h2{
+        color: white;
+    }
+    p {
+        color: white;
+    }
+    .card__follow{
+        display: grid;
+        grid-template: 'a' auto;
+        margin: auto auto;
+        background-color: white;
+        width: 80%;
+    }
+}
