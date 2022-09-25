@@ -8,7 +8,8 @@ const data = [
     id: 0,
     marca: "Tacural",
     logo: "assets/images/brands/tacural.png",
-    premio: "Lorem Ipsum",
+    premio: "Ganaste un premio",
+    info: "Acércate a nuestro stand para retirarlo.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 302,
@@ -18,7 +19,8 @@ const data = [
     id: 1,
     marca: "Milkaut",
     logo: "assets/images/brands/milkaut.png",
-    premio: "Lorem Ipsum",
+    premio: "Ganaste un dulce de leche",
+    info: "Acércate a nuestro stand para retirarlo.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 242,
@@ -28,7 +30,8 @@ const data = [
     id: 2,
     marca: "Merengo",
     logo: "assets/images/brands/merengo.png",
-    premio: "Lorem Ipsum",
+    premio: "Ganaste un alfajor",
+    info: "Acércate a nuestro stand para retirarlo.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 182,
@@ -38,7 +41,8 @@ const data = [
     id: 3,
     marca: "Cerveza Santa Fe",
     logo: "assets/images/brands/cerveceria.png",
-    premio: "Lorem Ipsum",
+    premio: "Ganaste una lata de",
+    info: "Acércate a nuestro stand para retirarlo.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 122,
@@ -48,7 +52,8 @@ const data = [
     id: 4,
     marca: "Santa Fe Capital",
     logo: "assets/images/brands/santafeciudad-alt.png",
-    premio: "Lorem Ipsum",
+    premio: "Ganaste un premio",
+    info: "Acércate a nuestro stand para retirarlo.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 62,
@@ -58,13 +63,20 @@ const data = [
     id: 5,
     marca: "Comodín",
     logo: "assets/images/brands/multi.png",
-    premio: "Lorem Ipsum",
+    premio: "¡¡¡Ganaste una picada santafesina para 2 personas!!!",
+    info: "Acércate a nuestro stand para más info.",
     disponibles: 10,
     probabilidad: 15,
     rotacion_min: 2, 
     rotacion_max: 58
   }
 ]
+
+function buscarEnData(marca) {
+  return data.find((element) => {
+    return element.marca === marca;
+  })
+}
 
 const LuckyWheel = () => {
   const [name, setName] = useState("circle");
@@ -148,7 +160,7 @@ const LuckyWheel = () => {
     setTimeout(() => {
       Swal.fire({
         title: '¡Felicitaciones!',
-        text: 'Ganaste un premio de ' + elGanadorEs,
+        text: buscarEnData(elGanadorEs).premio,
         confirmButtonColor: '#00c18c'
       })}, 5500);
   }
@@ -176,6 +188,7 @@ const LuckyWheel = () => {
         }
     <div className='wheel__container'>
         <div className='arrow'></div>
+        <div className='circle__interior'></div>
         <ul className={name} style={styleGanador}>
           {data.map((data) => (
             <li key={data.id}>
