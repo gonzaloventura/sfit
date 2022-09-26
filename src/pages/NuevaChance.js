@@ -2,6 +2,7 @@ import React from 'react'
 import Follow from '../components/Follow'
 import Brands from '../components/Brands'
 import Footer from '../components/Footer'
+import {Link} from 'react-router-dom'
 
 function Home() {
   return (
@@ -12,7 +13,10 @@ function Home() {
         <div className='card__follow'>
             <Follow />
         </div>
-        <button disabled className='spin-button'>¡Nuevo Giro disponible!</button>
+        <div className='menu_buttons'>
+        <Link to={'/'}><button className='spin-button'>Volver atrás</button></Link>
+        <button className='spin-button disabled'>¡Nuevo Giro disponible!</button>
+        </div>
     </div>
     <Footer />
     </>

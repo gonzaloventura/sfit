@@ -37,5 +37,19 @@ body{
         margin: auto auto;
         background-color: white;
         width: 80%;
+        border-radius: 10px;
+    }
+    .menu_buttons{
+        display: grid;
+        grid-template: "a a" auto;
+        margin: auto 100px;
+    }
+    .disabled{
+        background-color: rgb(211, 211, 211);
+        color: rgb(165, 165, 165);
+        cursor: not-allowed;
+        &:hover{
+            box-shadow: none;
+        }
     }
 }
