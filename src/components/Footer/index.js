@@ -4,7 +4,7 @@ import './Footer.scss';
 const Footer = () => {
   return (
     <div>
-        <h4>Un desarrollo de <span>GV</span></h4>
+        <a href='https://ventu.dev/' target={'_blank'} rel="noreferrer"><h4>Un desarrollo de <span>Ventu</span></h4></a>
     </div>
   )
 }

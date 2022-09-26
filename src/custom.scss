@@ -42,7 +42,7 @@ body{
     .menu_buttons{
         display: grid;
         grid-template: "a a" auto;
-        margin: auto 100px;
+        margin: auto;
     }
     .disabled{
         background-color: rgb(211, 211, 211);
