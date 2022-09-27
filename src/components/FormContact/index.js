@@ -14,6 +14,7 @@ const FormContact = () => {
     setEmailInput(event.target.value);
     console.log(emailInput);
   }
+  
   return (
     <div>
         <form>

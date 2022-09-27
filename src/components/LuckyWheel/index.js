@@ -3,90 +3,59 @@ import './LuckyWheel.scss'
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import db from "../../helpers/FirebaseConfig";
 
-export const data = [
-  {
-    id: 0,
-    marca: "Tacural",
-    logo: "assets/images/brands/tacural.png",
-    premio: "Ganaste un premio",
-    info: "Acércate a nuestro stand para retirarlo.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 302,
-    rotacion_max: 358
-  },
-  {
-    id: 1,
-    marca: "Milkaut",
-    logo: "assets/images/brands/milkaut.png",
-    premio: "Ganaste un dulce de leche",
-    info: "Acércate a nuestro stand para retirarlo.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 242,
-    rotacion_max: 298
-  },
-  {
-    id: 2,
-    marca: "Merengo",
-    logo: "assets/images/brands/merengo.png",
-    premio: "Ganaste un alfajor",
-    info: "Acércate a nuestro stand para retirarlo.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 182,
-    rotacion_max: 238
-  },
-  {
-    id: 3,
-    marca: "Cerveza Santa Fe",
-    logo: "assets/images/brands/cerveceria.png",
-    premio: "Ganaste una lata de",
-    info: "Acércate a nuestro stand para retirarlo.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 122,
-    rotacion_max: 178
-  },
-  {
-    id: 4,
-    marca: "Santa Fe Capital",
-    logo: "assets/images/brands/santafeciudad-alt.png",
-    premio: "Ganaste un premio",
-    info: "Acércate a nuestro stand para retirarlo.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 62,
-    rotacion_max: 118
-  },
-  {
-    id: 5,
-    marca: "Comodín",
-    logo: "assets/images/brands/multi.png",
-    premio: "¡¡¡Ganaste una picada santafesina para 2 personas!!!",
-    info: "Acércate a nuestro stand para más info.",
-    disponibles: 10,
-    probabilidad: 15,
-    rotacion_min: 2, 
-    rotacion_max: 58
-  }
-]
-
-function buscarEnData(marca) {
-  return data.find((element) => {
-    return element.marca === marca;
-  })
-}
-
-const LuckyWheel = () => {
+const LuckyWheel = ({nombre, email}) => {
   const [name, setName] = useState("circle");
   const [chances, setChances] = useState(1);   
   const [style, setStyle] = useState(0);
-  const [elGanadorEs, setElGanadorEs] = useState("Milkaut");
+  const [elGanadorEs, setElGanadorEs] = useState("Cerveza Santa Fe");
+  const [data, setData] = useState([]);
+
+  const [success, setSuccess] = useState()
+
+  const [order, setOrder] = useState({});
+  const [userData, setUserData] = useState({});
+
+
+  const getData = async () => {
+    const dataCollection = collection(db, 'data')
+    const dataSnapshot = await getDocs(dataCollection)
+    const dataList = dataSnapshot.docs.map( (doc) => {
+        let sponsor = doc.data()
+        sponsor.id = doc.id
+        return sponsor
+    })
+    return dataList;
+  }
+
+  useEffect(() => {
+    getData()
+    .then((res) => {
+      setData(res);
+    })
+}, [])
+
+
+
+  useEffect(() => {
+    setUserData({
+      nombre: nombre,
+      email: email
+    })
+    console.log("userdata", userData);
+  }, [nombre, email])
+
 
   function obtenerValor(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function buscarEnData(marca) {
+    return data.find((element) => {
+      return element.marca === marca;
+    })
   }
 
   function quienGana(marca){
@@ -111,9 +80,7 @@ const LuckyWheel = () => {
   }
 
   const validacionPrevia = () => {
-    const nombreUsuario = document.getElementById("name").value;
-    const emailUsuario = document.getElementById("email").value;
-    if (nombreUsuario && emailUsuario) {
+    if (nombre && email) {
       Swal.fire({
         title: 'Los datos son válidos',
         text: "Haz click en GIRAR para ganar un premio",
@@ -127,12 +94,12 @@ const LuckyWheel = () => {
         }
       })
       
-    } else if (nombreUsuario && !emailUsuario) {
+    } else if (nombre && !email) {
       Swal.fire({
         text: 'Debes ingresar tu correo electrónico',
         confirmButtonColor: '#00c18c'
       })
-    } else if (!nombreUsuario && emailUsuario) {
+    } else if (!nombre && email) {
       Swal.fire({
         text: 'Debes ingresar tu nombre',
         confirmButtonColor: '#00c18c'
@@ -156,6 +123,7 @@ const LuckyWheel = () => {
         startVelocity: 25,
         spread: 120,
         });
+        pushData({...userData, premio: buscarEnData(elGanadorEs).marca});
     seQuedoSinChances();
     }, 4000);
     setTimeout(() => {
@@ -165,8 +133,14 @@ const LuckyWheel = () => {
         confirmButtonColor: '#00c18c'
       })}, 5500);
   }
-  
 
+  const pushData = async (newOrder) => {
+    const collectionOrder = collection(db, 'entregados')
+    const orderDoc = await addDoc(collectionOrder, newOrder)
+    setSuccess(orderDoc.id)
+    console.log('ORDEN GENERADA', orderDoc)
+  }
+  
   const seQuedoSinChances = () => {
     localStorage.setItem("Chances", 0);
     setChances(0);
@@ -192,7 +166,7 @@ const LuckyWheel = () => {
     <div className='wheel__container'>
         <div className='arrow'></div>
         <div className='circle__interior'></div>
-        <ul className={name} style={styleGanador}>
+        <ul className={name} style={styleGanador}> 
           {data.map((data) => (
             <li key={data.id}>
                 <div className='text'>
