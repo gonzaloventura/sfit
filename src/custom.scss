@@ -75,9 +75,11 @@ body{
 }
 
 .cuenta__follow{
-    display: flex;
     align-items: center;
-    margin: 25px 0px;
+    display: flex;
+    margin: 20px 10px 20px 0px;
+    /* width: 100%; */
+    justify-content: center;
     img{
         margin: 0 20px;
     }
