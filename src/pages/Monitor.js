@@ -50,10 +50,11 @@ function Monitor() {
             <p><strong><img className='brand' src={require("../assets/images/brands/milkaut.png")} alt={"Milkaut"}/> Entregados: {filtrarPremio("Milkaut").length}</strong></p>
             <p><strong><img className='brand' src={require("../assets/images/brands/merengo.png")} alt={"Merengo"} /> Entregados: {filtrarPremio("Merengo").length}</strong></p>
             <p><strong><img className='brand' src={require("../assets/images/brands/cerveceria.png")} alt={"Cerveza Santa Fe"}/> Entregados: {filtrarPremio("Cerveza Santa Fe").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/multi.png")} alt={"Picada"}/> Entregados: {filtrarPremio("Picada").length}</strong></p>
         </div>
         <div className='menu_buttons'>
         <Link to={'/'}><button className='spin-button'>Volver atrás</button></Link>
-        <button onClick={entregarPicada} className='spin-button'>Entregar Picada <span className='picadas__contador'>(Entregadas: {filtrarPremio("Tacural").length})</span></button>
+        <button onClick={entregarPicada} className='spin-button'>Entregar Picada <span className='picadas__contador'>(Entregadas: {filtrarPremio("Picada").length})</span></button>
         </div>
         <div className='card__follow'>
         <h4>Listado de Ganadores</h4>
