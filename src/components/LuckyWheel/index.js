@@ -176,18 +176,24 @@ const LuckyWheel = ({nombre, email}) => {
     setChances(0);
   }
 
-    return (
-    <>
-    { !((localStorage.getItem("Chances") === "0") && (localStorage.getItem("NuevaChance") === "1")) ?
-        ((localStorage.getItem("Chances") === "0") && (localStorage.getItem("NuevaChance") === "0")) ?
+  const botonera = () => {
+    if ((localStorage.getItem("Chances")) === "0" && (localStorage.getItem("NuevaChance") === "0"))
+    {
+        return (
         <h2 className='subtitulo__rueda'>
           ¡Muchas gracias por participar!
         </h2>
-        :
-        ((localStorage.getItem("Chances") === "1") && (localStorage.getItem("NuevaChance") === "0")) ?
-        <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
-        :
-        <>
+      )
+    }
+    if ((localStorage.getItem("Chances")) === "0")
+    {
+      if (localStorage.getItem("NuevaChance") === "1"){
+        return (
+          <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
+        )
+      } else {
+        return (
+          <>
           <h2 className='subtitulo__rueda'>
             ¡Muchas gracias por participar!
           </h2>
@@ -196,11 +202,25 @@ const LuckyWheel = ({nombre, email}) => {
               OBTENER NUEVO GIRO
             </button>
           </Link>
-        </>
-     :
-     <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
-      }
-        
+          </>
+        )
+        }
+    } 
+    if ((localStorage.getItem("Chances")) === "0" && (localStorage.getItem("NuevaChance") === "1"))
+    {
+        return (
+          <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
+      )
+    }
+    if (chances === 1)
+        return (
+          <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
+      )
+  }
+
+    return (
+    <>
+        {botonera()}
         <div className='wheel__container'>
         <div className='arrow'></div>
         <div className='circle__interior'></div>
