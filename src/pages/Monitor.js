@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Footer from '../components/Footer'
 import {Link} from 'react-router-dom'
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import db from "../helpers/FirebaseConfig";
 
-function Home() {
+function Monitor() {
     const [data, setData] = useState([]);
 
     const getData = async () => {
@@ -34,21 +34,26 @@ function Home() {
         })
       }
 
+      const entregarPicada = () =>{
+        const docRef = doc(db, 'data', "5")
+        updateDoc(docRef, {probabilidad: 1})
+      }
+
   return (
     <>
     <div className='monitor'>
         <h2>Monitoreo de premios</h2>
         <div>
             <p><strong>Total premios entregados: {data.length}</strong></p>
-            <p><strong><img className='brand' src={require("../assets/images/brands/tacural.png")} /> Entregados: {filtrarPremio("Tacural").length}</strong></p>
-            <p><strong><img className='brand' src={require("../assets/images/brands/santafeciudad-alt.png")} /> Entregados: {filtrarPremio("Santa Fe Capital").length}</strong></p>
-            <p><strong><img className='brand' src={require("../assets/images/brands/milkaut.png")} /> Entregados: {filtrarPremio("Milkaut").length}</strong></p>
-            <p><strong><img className='brand' src={require("../assets/images/brands/merengo.png")} /> Entregados: {filtrarPremio("Merengo").length}</strong></p>
-            <p><strong><img className='brand' src={require("../assets/images/brands/cerveceria.png")} /> Entregados: {filtrarPremio("Cerveza Santa Fe").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/tacural.png")} alt={"Tacural"} /> Entregados: {filtrarPremio("Tacural").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/santafeciudad-alt.png")} alt={"Santa Fe Capital"} /> Entregados: {filtrarPremio("Santa Fe Capital").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/milkaut.png")} alt={"Milkaut"}/> Entregados: {filtrarPremio("Milkaut").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/merengo.png")} alt={"Merengo"} /> Entregados: {filtrarPremio("Merengo").length}</strong></p>
+            <p><strong><img className='brand' src={require("../assets/images/brands/cerveceria.png")} alt={"Cerveza Santa Fe"}/> Entregados: {filtrarPremio("Cerveza Santa Fe").length}</strong></p>
         </div>
         <div className='menu_buttons'>
         <Link to={'/'}><button className='spin-button'>Volver atrás</button></Link>
-        <button className='spin-button disabled'>Entregar Picada <span className='picadas__contador'>(Entregadas: {filtrarPremio("Tacural").length})</span></button>
+        <button onClick={entregarPicada} className='spin-button'>Entregar Picada <span className='picadas__contador'>(Entregadas: {filtrarPremio("Tacural").length})</span></button>
         </div>
         <div className='card__follow'>
         <h4>Listado de Ganadores</h4>
@@ -69,4 +74,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Monitor

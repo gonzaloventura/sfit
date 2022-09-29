@@ -3,21 +3,21 @@ import './LuckyWheel.scss'
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import db from "../../helpers/FirebaseConfig";
+import NuevaChance from '../../pages/NuevaChance'
 
 const LuckyWheel = ({nombre, email}) => {
   const [name, setName] = useState("circle");
   const [chances, setChances] = useState(1);   
   const [style, setStyle] = useState(0);
-  const [elGanadorEs, setElGanadorEs] = useState("Cerveza Santa Fe");
+  const [elGanadorEs, setElGanadorEs] = useState();
   const [data, setData] = useState([]);
 
   const [success, setSuccess] = useState()
 
   const [order, setOrder] = useState({});
   const [userData, setUserData] = useState({});
-
 
   const getData = async () => {
     const dataCollection = collection(db, 'data')
@@ -34,9 +34,26 @@ const LuckyWheel = ({nombre, email}) => {
     getData()
     .then((res) => {
       setData(res);
-    })
+      let salePicada = res[5].probabilidad;
+      let randomNumber = obtenerValor(1,10);
+      if (salePicada > 0) {
+        setElGanadorEs("Picada");
+      } else if (randomNumber === 0 && res[1].disponibles > 0){
+        setElGanadorEs("Tacural");
+      } else if (randomNumber === 1 && res[2].disponibles > 0){
+        setElGanadorEs("Milkaut");
+      }  else if ((randomNumber === 2 || randomNumber === 5 || randomNumber === 6) && res[2].disponibles > 0){
+        setElGanadorEs("Merengo");
+      }  else if ((randomNumber === 3 || randomNumber === 7 || randomNumber === 8) && res[3].disponibles > 0){
+        setElGanadorEs("Cerveza Santa Fe");
+      }  else if ((randomNumber === 4 || randomNumber === 9 || randomNumber === 10) && res[4].disponibles > 0){
+        setElGanadorEs("Santa Fe Capital");
+      }
+      
+    });
+    
+    
 }, [])
-
 
 
   useEffect(() => {
@@ -61,17 +78,26 @@ const LuckyWheel = ({nombre, email}) => {
   function quienGana(marca){
     switch (marca){
       case "Tacural":
+        updateDoc(doc(db, 'data', "0"), {disponibles: data[0].disponibles - 1})
         return(obtenerValor(data[0].rotacion_min, data[0].rotacion_max));
       case "Milkaut":
+        updateDoc(doc(db, 'data', "1"), {disponibles: data[1].disponibles - 1});
         return(obtenerValor(data[1].rotacion_min, data[1].rotacion_max));
       case "Merengo":
+        updateDoc(doc(db, 'data', "2"), {disponibles: data[2].disponibles - 1});
         return(obtenerValor(data[2].rotacion_min, data[2].rotacion_max));
       case "Cerveza Santa Fe":
+        updateDoc(doc(db, 'data', "3"), {disponibles: data[3].disponibles - 1});
         return(obtenerValor(data[3].rotacion_min, data[3].rotacion_max));
       case "Santa Fe Capital":
+        updateDoc(doc(db, 'data', "4"), {disponibles: data[4].disponibles - 1});
         return(obtenerValor(data[4].rotacion_min, data[4].rotacion_max));
-      default:
+      case "Picada":
+        updateDoc(doc(db, 'data', "5"), {probabilidad: 0})
+        updateDoc(doc(db, 'data', "5"), {disponibles: data[5].disponibles - 1})
         return(obtenerValor(data[5].rotacion_min, data[5].rotacion_max));
+      default:
+        console.log("error");
     }
   }
   
@@ -129,7 +155,7 @@ const LuckyWheel = ({nombre, email}) => {
     setTimeout(() => {
       Swal.fire({
         title: '¡Felicitaciones!',
-        text: buscarEnData(elGanadorEs).premio,
+        text: buscarEnData(elGanadorEs).premio, 
         confirmButtonColor: '#00c18c'
       })}, 5500);
   }
@@ -143,18 +169,27 @@ const LuckyWheel = ({nombre, email}) => {
   
   const seQuedoSinChances = () => {
     localStorage.setItem("Chances", 0);
+    if (localStorage.getItem("NuevaChance")){
+      localStorage.setItem("NuevaChance", 0);
+    }
+    
     setChances(0);
   }
 
     return (
     <>
-    {
-        localStorage.getItem("Chances") !== "0" ? 
+    { !((localStorage.getItem("Chances") === "0") && (localStorage.getItem("NuevaChance") === "1")) ?
+        ((localStorage.getItem("Chances") === "0") && (localStorage.getItem("NuevaChance") === "0")) ?
+        <h2 className='subtitulo__rueda'>
+          ¡Muchas gracias por participar!
+        </h2>
+        :
+        ((localStorage.getItem("Chances") === "1") && (localStorage.getItem("NuevaChance") === "0")) ?
         <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
-        : 
+        :
         <>
           <h2 className='subtitulo__rueda'>
-            ¡Te quedaste sin chances!
+            ¡Muchas gracias por participar!
           </h2>
           <Link to={'/nuevachance'}>
             <button className='spin-button'>
@@ -162,12 +197,15 @@ const LuckyWheel = ({nombre, email}) => {
             </button>
           </Link>
         </>
-        }
-    <div className='wheel__container'>
+     :
+     <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
+      }
+        
+        <div className='wheel__container'>
         <div className='arrow'></div>
         <div className='circle__interior'></div>
         <ul className={name} style={styleGanador}> 
-          {data.map((data) => (
+        {data.map((data) => (
             <li key={data.id}>
                 <div className='text'>
                   <img className='brand__rueda' src={require("../../" + data.logo)} alt={data.marca} />
@@ -176,7 +214,7 @@ const LuckyWheel = ({nombre, email}) => {
           ))
         }
         </ul>        
-    </div>
+      </div>
     </>
   )
 }
