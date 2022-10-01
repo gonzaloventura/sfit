@@ -35,7 +35,7 @@ const LuckyWheel = ({nombre, email}) => {
     .then((res) => {
       setData(res);
       let salePicada = res[5].probabilidad;
-      let randomNumber = obtenerValor(1,10);
+      let randomNumber = obtenerValor(0,10);
       if (salePicada > 0) {
         setElGanadorEs("Picada");
       } else if (randomNumber === 0 && res[1].disponibles > 0){
