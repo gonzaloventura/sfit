@@ -25,7 +25,7 @@ function Monitor() {
             .then((res) => {
               setData(res);
             })
-        }, 5000);
+        }, 30000);
       }, []);
 
       const filtrarPremio = (premio) => {
