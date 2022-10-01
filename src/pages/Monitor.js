@@ -23,12 +23,6 @@ function Monitor() {
             .then((res) => {
               setData(res);
             })
-        setInterval(() => {
-            getData()
-            .then((res) => {
-              setData(res);
-            })
-        }, 60000);
       }, []);
 
       const filtrarPremio = (premio) => {
