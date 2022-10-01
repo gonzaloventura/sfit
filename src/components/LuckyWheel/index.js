@@ -35,18 +35,18 @@ const LuckyWheel = ({nombre, email}) => {
     .then((res) => {
       setData(res);
       let salePicada = res[5].probabilidad;
-      let randomNumber = obtenerValor(0,10);
+      let randomNumber = obtenerValor(1,11);
       if (salePicada > 0) {
         setElGanadorEs("Picada");
-      } else if (randomNumber === 0 && res[1].disponibles > 0){
+      } else if (randomNumber === 1 && res[1].disponibles > 0){
         setElGanadorEs("Tacural");
-      } else if (randomNumber === 1 && res[2].disponibles > 0){
+      } else if (randomNumber === 2 && res[2].disponibles > 0){
         setElGanadorEs("Milkaut");
-      }  else if ((randomNumber === 2 || randomNumber === 5 || randomNumber === 6) && res[2].disponibles > 0){
+      }  else if ((randomNumber === 3 || randomNumber === 6 || randomNumber === 7) && res[2].disponibles > 0){
         setElGanadorEs("Merengo");
-      }  else if ((randomNumber === 3 || randomNumber === 7 || randomNumber === 8) && res[3].disponibles > 0){
+      }  else if ((randomNumber === 4 || randomNumber === 8 || randomNumber === 9) && res[3].disponibles > 0){
         setElGanadorEs("Cerveza Santa Fe");
-      }  else if ((randomNumber === 4 || randomNumber === 9 || randomNumber === 10) && res[4].disponibles > 0){
+      }  else if ((randomNumber === 5 || randomNumber === 10 || randomNumber === 11) && res[4].disponibles > 0){
         setElGanadorEs("Santa Fe Capital");
       }
       
