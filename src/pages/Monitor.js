@@ -19,13 +19,16 @@ function Monitor() {
       }
 
       useEffect(() => {
+        getData()
+            .then((res) => {
+              setData(res);
+            })
         setInterval(() => {
-            console.log("update");
             getData()
             .then((res) => {
               setData(res);
             })
-        }, 30000);
+        }, 60000);
       }, []);
 
       const filtrarPremio = (premio) => {
