@@ -16,7 +16,6 @@ function Home() {
     <div className='sponsors'>
     <img className='banner__sponsors' src={require('../assets/images/brands/sponsors.png')} alt="Genomma Lab" />
     </div>
-    
     <div>
       <LuckyWheel nombre={formData.nombre} email={formData.email} />
     </div>
