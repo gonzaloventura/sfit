@@ -47,7 +47,7 @@ const LuckyWheel = ({nombre, email}) => {
       } else if (randomNumber === 12 || randomNumber === 13) {
         setElGanadorEs("Jaime Miranda Vega");
       }
-    });
+    }); 
 }, [chances, setChances, elGanadorEs, success, setElGanadorEs, data])
 
 
