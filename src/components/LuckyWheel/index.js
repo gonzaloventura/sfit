@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
 import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import db from "../../helpers/FirebaseConfig";
-import NuevaChance from '../../pages/NuevaChance'
 
 const LuckyWheel = ({nombre, email}) => {
   const [name, setName] = useState("circle");
@@ -34,26 +33,22 @@ const LuckyWheel = ({nombre, email}) => {
     getData()
     .then((res) => {
       setData(res);
-      let salePicada = res[5].probabilidad;
-      let randomNumber = obtenerValor(1,11);
-      if (salePicada > 0) {
-        setElGanadorEs("Picada");
-      } else if (randomNumber === 1 && res[1].disponibles > 0){
-        setElGanadorEs("Tacural");
+      let randomNumber = obtenerValor(1,13);
+      if (randomNumber === 1 && res[1].disponibles > 0){
+        setElGanadorEs("Francelina Espinoza");
       } else if (randomNumber === 2 && res[2].disponibles > 0){
-        setElGanadorEs("Milkaut");
+        setElGanadorEs("Cesar Flores");
       }  else if ((randomNumber === 3 || randomNumber === 6 || randomNumber === 7) && res[2].disponibles > 0){
-        setElGanadorEs("Merengo");
+        setElGanadorEs("Walter Yanho");
       }  else if ((randomNumber === 4 || randomNumber === 8 || randomNumber === 9) && res[3].disponibles > 0){
-        setElGanadorEs("Cerveza Santa Fe");
+        setElGanadorEs("Victoria Bavosi");
       }  else if ((randomNumber === 5 || randomNumber === 10 || randomNumber === 11) && res[4].disponibles > 0){
-        setElGanadorEs("Santa Fe Capital");
+        setElGanadorEs("Madeleine Orihuela");
+      } else if (randomNumber === 12 || randomNumber === 13) {
+        setElGanadorEs("Jaime Miranda Vega");
       }
-      
     });
-    
-    
-}, [])
+}, [chances, setChances, elGanadorEs, success, setElGanadorEs, data])
 
 
   useEffect(() => {
@@ -77,23 +72,22 @@ const LuckyWheel = ({nombre, email}) => {
 
   function quienGana(marca){
     switch (marca){
-      case "Tacural":
+      case "Francelina Espinoza":
         updateDoc(doc(db, 'data', "0"), {disponibles: data[0].disponibles - 1})
         return(obtenerValor(data[0].rotacion_min, data[0].rotacion_max));
-      case "Milkaut":
+      case "Cesar Flores":
         updateDoc(doc(db, 'data', "1"), {disponibles: data[1].disponibles - 1});
         return(obtenerValor(data[1].rotacion_min, data[1].rotacion_max));
-      case "Merengo":
+      case "Walter Yanho":
         updateDoc(doc(db, 'data', "2"), {disponibles: data[2].disponibles - 1});
         return(obtenerValor(data[2].rotacion_min, data[2].rotacion_max));
-      case "Cerveza Santa Fe":
+      case "Victoria Bavosi":
         updateDoc(doc(db, 'data', "3"), {disponibles: data[3].disponibles - 1});
         return(obtenerValor(data[3].rotacion_min, data[3].rotacion_max));
-      case "Santa Fe Capital":
+      case "Madeleine Orihuela":
         updateDoc(doc(db, 'data', "4"), {disponibles: data[4].disponibles - 1});
         return(obtenerValor(data[4].rotacion_min, data[4].rotacion_max));
-      case "Picada":
-        updateDoc(doc(db, 'data', "5"), {probabilidad: 0})
+      case "Jaime Miranda Vega":
         updateDoc(doc(db, 'data', "5"), {disponibles: data[5].disponibles - 1})
         return(obtenerValor(data[5].rotacion_min, data[5].rotacion_max));
       default:
@@ -106,36 +100,7 @@ const LuckyWheel = ({nombre, email}) => {
   }
 
   const validacionPrevia = () => {
-    if (nombre && email) {
-      Swal.fire({
-        title: 'Los datos son válidos',
-        text: "Haz click en GIRAR para ganar un premio",
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonColor: '#00c18c',
-        confirmButtonText: '¡GIRAR!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          startRotation();
-        }
-      })
-      
-    } else if (nombre && !email) {
-      Swal.fire({
-        text: 'Debes ingresar tu correo electrónico',
-        confirmButtonColor: '#00c18c'
-      })
-    } else if (!nombre && email) {
-      Swal.fire({
-        text: 'Debes ingresar tu nombre',
-        confirmButtonColor: '#00c18c'
-      })
-    } else {
-      Swal.fire({
-        text: 'Debes ingresar tu nombre y correo electrónico',
-        confirmButtonColor: '#00c18c'
-      })
-    }
+      startRotation();
   }
   
   const startRotation = () => {
@@ -150,13 +115,12 @@ const LuckyWheel = ({nombre, email}) => {
         spread: 120,
         });
         pushData({...userData, premio: buscarEnData(elGanadorEs).marca});
-    seQuedoSinChances();
     }, 4000);
     setTimeout(() => {
       Swal.fire({
         title: '¡Felicitaciones!',
-        text: buscarEnData(elGanadorEs).premio, 
-        confirmButtonColor: '#00c18c'
+        text: buscarEnData(elGanadorEs).marca, 
+        confirmButtonColor: '#6CACE4'
       })}, 5500);
   }
 
@@ -168,23 +132,15 @@ const LuckyWheel = ({nombre, email}) => {
   }
   
   const seQuedoSinChances = () => {
-    localStorage.setItem("Chances", 0);
+    localStorage.setItem("Chances", 1);
     if (localStorage.getItem("NuevaChance")){
       localStorage.setItem("NuevaChance", 0);
     }
     
-    setChances(0);
+    setChances(1);
   }
 
   const botonera = () => {
-    if ((localStorage.getItem("Chances")) === "0" && (localStorage.getItem("NuevaChance") === "0"))
-    {
-        return (
-        <h2 className='subtitulo__rueda'>
-          ¡Muchas gracias por participar!
-        </h2>
-      )
-    }
     if ((localStorage.getItem("Chances")) === "0")
     {
       if (localStorage.getItem("NuevaChance") === "1"){
@@ -214,13 +170,12 @@ const LuckyWheel = ({nombre, email}) => {
     }
     if (chances === 1)
         return (
-          <button className='spin-button' onClick={validacionPrevia}>CONTINUAR</button>
+          <button className='spin-button' onClick={validacionPrevia}>GIRAR</button>
       )
   }
 
     return (
     <>
-        {botonera()}
         <div className='wheel__container'>
         <div className='arrow'></div>
         <div className='circle__interior'></div>
@@ -235,6 +190,7 @@ const LuckyWheel = ({nombre, email}) => {
         }
         </ul>        
       </div>
+      {botonera()}
     </>
   )
 }

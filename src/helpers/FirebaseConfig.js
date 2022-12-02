@@ -6,12 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBSU-ZB56vLY_g7ZJURgHRXNWP_9fGaVLk",
-    authDomain: "rueda-santa-fe.firebaseapp.com",
-    projectId: "rueda-santa-fe",
-    storageBucket: "rueda-santa-fe.appspot.com",
-    messagingSenderId: "362408982563",
-    appId: "1:362408982563:web:96cedbc6798f87cfd21996"
+  apiKey: "AIzaSyBb8IdR4Qz9vQeQLRvMqFheK7ndeJFoqNw",
+  authDomain: "rueda-genomma.firebaseapp.com",
+  projectId: "rueda-genomma",
+  storageBucket: "rueda-genomma.appspot.com",
+  messagingSenderId: "226975920157",
+  appId: "1:226975920157:web:de88f12cc5c2668a8fd6f4"
   };
 
 // Initialize Firebase

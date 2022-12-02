@@ -5,7 +5,11 @@
   }
 
 body{
-    background-color: #00c18c;
+    background-image: url('./background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
 .title__sponsors{
@@ -19,8 +23,15 @@ body{
     margin: auto;
 }
 
+.sponsors{
+    text-align: center;
+    text-align: -webkit-center;
+}
+
 .banner__sponsors{
-    max-width: 100%;
+    max-width: 200px;
+    margin-top: 40px;
+    border-radius: 10px;
 }
 
 .nuevachance{

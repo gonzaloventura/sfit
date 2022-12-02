@@ -4,27 +4,27 @@
 }
 
 li:first-child .text {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(255, 255, 255);
 }
 
 li:nth-child(2) .text{
-  background-color: #00c18c;
+  background-color: #6CACE4;
 }
 
 li:nth-child(3) .text{
-  background-color: rgb(235, 235, 235);;
+  background-color: rgb(255, 255, 255);;
 }
 
 li:nth-child(4) .text{
-  background-color: #00c18c;
+  background-color: #6CACE4;
 }
 
 li:nth-child(5) .text{
-  background-color: rgb(235, 235, 235);;
+  background-color: rgb(255, 255, 255);;
 }
 
 li:nth-child(6) .text{
-  background-color: rgb(202, 201, 101);
+  background-color: #6CACE4;
 }
 
 li:first-child {
@@ -52,9 +52,9 @@ li:nth-child(6) {
 }
 
 .circle {
-  width: 350px;
-  height: 350px;
-  border: 6px solid rgb(255, 255, 255);
+  width: 500px;
+  height: 500px;
+  border: 6px solid #6CACE4;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
   position: relative;
   padding: 0;
@@ -105,15 +105,15 @@ li {
 .spin-button {
   display: block;
   margin: 40px auto;
-  width: 80%;
+  width: 10%;
   max-width: 100%;
-  padding: 15px;
+  padding: 10px;
   font-weight: 800;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   border: 0px solid;
   cursor: pointer;
-  color: #00c18c;
+  color: #6CACE4;
   font-size: 18px;
   outline: none;
   
@@ -137,7 +137,8 @@ li {
 }
 
 .brand__rueda{
-  max-width: 105px;
+  max-width: 135px;
+  border-radius: 50%;
 }
 
 .subtitulo__rueda{
@@ -149,7 +150,7 @@ li {
 .circle__interior{
   width: 50px;
   height: 50px;
-  background-color: #00c18c;
+  background-color: #FFB81C;
   border-radius: 50%;
   box-shadow: 0px 5px 10px rgb(0 0 0 / 15%);
   margin-left: 50%;
